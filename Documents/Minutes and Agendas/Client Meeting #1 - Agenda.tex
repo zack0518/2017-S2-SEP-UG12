@@ -1,0 +1,152 @@
+%%%%%%weekly meeting template, prepared by Michael Sheng.  09/03/2007
+\documentclass[11pt, a4paper]{article}
+\usepackage{times}
+\usepackage{ifthen}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{setspace}
+
+%%% page parameters
+%\oddsidemargin -0.5 cm
+%\evensidemargin -0.5 cm
+%\textwidth 17 cm
+%\topmargin -3 cm
+%\textheight 23.5 cm
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in 
+
+\renewcommand{\baselinestretch}{1.4}\normalsize
+\setlength{\parskip}{0pt}
+
+
+\begin{document}
+
+%%%mention the no, time, and venue of the meeting
+%\noindent The {\em first} Software Engineering Group Project weekly meeting will be held in \textbf{Room 462} at Ingkarni Wardli building at \textbf{1.00pm on Tuesday 8 August 2017}.
+
+
+%\vspace*{15pt}
+
+\begin{center}
+\huge \bf Agenda \\
+\hrulefill
+\end{center}
+
+
+
+%%%first, nominate a chair for the meeting. We suggest that each member at least has one chance as the chair.
+\section*{Chair: James Austin Kortman}
+
+\vspace*{10pt}
+
+\section{Location}
+\begin{itemize}
+\item[] \textbf{Where}: Room 462 at Ingkarni Wardli
+\item[] \textbf{When}: 1.00pm on Tuesday 8 August 2017
+\end{itemize}
+
+%%%any schedules for this meeting should go next, each with a separate section.
+%%%for example, the first meeting is about requirement elicitation, like the following.
+\section{Requirements Elicitation}
+
+%%%if there are more subissues, make them as subsections.
+Collect basic requirements of \em{Lunar Rover Mapping Robot} from different stakeholders including the contractor and the end user. Questions to ask: 
+
+\subsection{\underline{The Rover Map}}
+
+\begin{itemize}
+
+\item[] \textbf{Question 1}: How big is the survey area? Could you please explain what you mean by "bounding box of 500 meters"?
+
+\item[] \textbf{Question 2}: How far is the landing site from the survey area?
+
+\item[] \textbf{Question 3}: How fast should the rover move(min/max speed)?
+
+\item[] \textbf{Question 4}: What are the significant features you are interested in to be shown on the \em{survey map} aside from debris and craters?
+
+\item[] \textbf{Question 5}: Autosave feature for the map?
+
+\item[] \textbf{Question 6}: When will the DTD be made available to us? Or do you have a DTD sample that we can play with?
+
+\item[] \textbf{Question 7}: Could you elaborate on what do you mean by \textbf{smoothly} when the rover moves from any mapped point to another?
+
+\item[] \textbf{Question 8}: How close do you want the zoom in to operate?
+
+\item[] \textbf{Question 9}: In what way do you want the survey map to be presented on the UI?
+
+\end{itemize}
+
+\subsection{\underline{Survey area terrain representation for prototype}}
+
+\begin{itemize}
+
+\item[] \textbf{Question 1}: Do you have any preference on how the NGZ will be represented in the survey map?
+
+\item[] \textbf{Question 2}: If the rover is manually controlled by an operator and is leading it through an NGZ how do you want the system to react to it?
+
+\item[] \textbf{Question 3}: How many wheels do you want the rover to have?
+
+\item[] \textbf{Question 4}: Do you want the system to prevent the 3 wheels of the rover from crossing the line(ask if the line the client is referring to is the thick line that represents the changes of terrain gradient)?
+
+\item[] \textbf{Question 5}: What are the colours of the tracks, radiation, objects and boundary line? How thick are the tracks, boundary line and the changes in terrain gradient?
+
+\item[] \textbf{Question 6}: When the vehicle has accomplished the mission or prematurely stopped the survey, would you like the vehicle to autonomously return back to the landing site or manually control the rover back to the landing site by the operator or give the operator the option to choose?
+
+\item[] \textbf{Question 7}: What is the minimum/maximum size of the obstacles?
+
+\item[] \textbf{Question 8}: How are the objects represented on the A1 sheet of paper? Is it represented as a 3D object or a 2D coloured object on the paper?
+
+\end{itemize}
+
+\subsection{\underline{Operation}}
+
+\begin{itemize}
+
+\item[] \textbf{Question 1}: When the vehicle is asked to move to a given point on the survey area how would the path be determined? Will the path be determined automatically by the on board computer or manually by the operator or give an option to either do one or the other? If the path would be determined automatically would you prefer the safest or fastest route or give the operator the option to choose?
+
+\item[] \textbf{Question 2}: Do you have any preference on how accurate should the map representation be? 
+
+\item[] \textbf{Question 3}: And do you have any preference on how fast should the system be able to compute a representation of the map?
+
+\item[] \textbf{Question 4}: Would you like the operator to give the ability to adjust the movement speed of the rover while moving and in stationary(therefore a speed controller is required)?
+
+\item[] \textbf{Question 5}: Do you have any preferences on what other components you would like to see on the user interface(UI)?
+
+\end{itemize}
+
+\subsection{\underline{Safety}}
+
+\begin{itemize}
+
+\item[] \textbf{Question 1}: What is the allowable force when it collide against an external object?(Ideal if we could make the vehicle to avoid from colliding against any external object)
+
+\item[] \textbf{Question 2}: What kind of objects are we expected to find?
+
+\end{itemize}
+
+%%%more issues should make it like the above one.
+\section{Other Issues}
+
+\begin{itemize}
+
+\item[] \textbf{Question 1}: Who are the people that are going to operate the vehicle? What are their background?
+
+\item[] \textbf{Question 2}: Should we take into account the communication delay?
+
+\item[] \textbf{Question 3}: Are we using our own laptop to write/implement the software system? What kind of computer or installed software are we going to use when demoing our prototype?
+
+\end{itemize} 
+
+%%%finally, specifies time of next meeting
+\vspace*{10pt}
+\noindent Note: Next meeting to be held on 15 August 2017 at 1.00 pm at Ingkarni Wardli Room 462.
+
+
+\end{document}

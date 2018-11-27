@@ -1,0 +1,53 @@
+\documentclass{article}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[document]{ragged2e}
+\usepackage{changepage}
+\begin{document}
+\begin{adjustwidth}{2.5em}{0pt}
+\begin{center}
+\Large{UG 12 Meeting \#12 Minutes}\\
+\end{center}
+\end{adjustwidth}
+
+
+12th Meeting (Friday, Week 6, 2pm, 1st September 2017)
+\section{Attendance:}
+\subsection*{Present}
+\begin{itemize}
+\item Adam Davidson, Cyrus Villacampa, James Kortman, Jeremy Hughes, Ziang Chen, Ravi Lam, Ziang Chen, Linlin Song
+\end{itemize}
+\subsection*{Absent}
+\begin{itemize}
+\item 
+\end {itemize}
+
+Meeting started at 14:18
+
+\section{Details:}
+\begin{enumerate}
+\item Is rendering the map hard? Image manipulation could be difficult. It'd be good to have a map demo (in the GUI), even if it doesn't work. We'll probably freeze the robot design in the break.
+\item In the final SRS, we will need testing and errors in it.
+\item Test cases are lacking in the code. To write test cases for the Robot class, it's basically the calibration documentation.
+\item Use JavaDoc for everything. Look at labelling options. @see. JavaDoc also lacking a bit in the code. To (hopefully) solve code quality related issues, check these things before you push: Coding Style, JavaDoc everywhere. Also update any previous functions. \underline{Make sure nobody forks}.
+\subsection{Milestones}
+\item \textbf{Milestone 1} Sensor/verifying data from robot. Safe movement. Saving sensor data to data structure. Map demo. Client Meeting 4 map request. Send all sensor data. 
+\item \textbf{Milestone 2} Mapping in real time and rendering the map. Path finding. Robot and Handler syncronisation (to fix any timing mismatches and potential errors.
+\item \textbf{Final Milestones} Full autonomy. Map import/export
+
+\end{enumerate}
+Meeting closed at 15:16pm.
+
+
+\section{Action}
+\begin{enumerate}
+\item \textbf{Everyone} Do your timesheets
+\item \textbf{Everyone} Start of tomorrow: Post one or two sentence minimum for the SPMP.
+\item \textbf{Everyone} Do tests for the code and familiarise with JUnit as necessary.
+\item \textbf{Everyone} Sunday night midnight deadline for SPMP.
+\item \textbf{James} By roughly Wednesday James will have a rough map API done.
+\item \textbf{Jeremy} Test map from Jeremy by milestone 1. By Tuesday for the Client Meeting
+\end{enumerate}
+
+
+\end{document}

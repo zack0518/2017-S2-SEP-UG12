@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[document]{ragged2e}
+\usepackage{changepage}
+\begin{document}
+\begin{adjustwidth}{2.5em}{0pt}
+\begin{center}
+\Large{UG 12 Meeting \#7 Minutes}\\
+\end{center}
+\end{adjustwidth}
+\justify
+
+Seventh Meeting (Wednesday, Week 4, 11am - noon, 16th August 2017)
+\section{Attendance:}
+\subsection*{Present}
+\begin{itemize}
+\item Adam Davidson, Cyrus Villacampa, James Kortman, Jeremy Hughes, Linlin Song, Ravi Lam, Ziang Chen
+\end{itemize}
+\subsection*{Absent}
+\begin{itemize}
+\item Ziang Chen (Apology)
+\end {itemize}
+
+\section{Details:}
+\begin{enumerate}
+\item We need to keep up with lectures
+\item Software Architecture\\
+We're unlikely to need threading for the week 6 goal. Do we use a queue? Java has built in implementation. Perhaps a concurrent linked queue.
+API on whiteboard\\
+Robot will not cater for a actuator for any sensors (at least not yet). Talked details about the robot functions. Ultrasonic sensor will return distance in cm. Some processing will be done on the robot, such as taking an average over time. The colour sensor will return all the data it can for processing. Other details are in the attached picture. James will write up API's by next meeting.
+\end{enumerate}
+
+\section{Action}
+\begin{enumerate}
+\item James write up API's by meeting \#8 (Friday)
+\end{enumerate}
+
+
+\end{document}

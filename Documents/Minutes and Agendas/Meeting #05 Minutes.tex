@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[document]{ragged2e}
+\usepackage{changepage}
+\begin{document}
+\begin{adjustwidth}{2.5em}{0pt}
+\begin{center}
+\Large{UG 12 Meeting \#5 Minutes}\\
+\end{center}
+\end{adjustwidth}
+
+
+Fifth Meeting (Friday, Week 3, 2-4pm, 9th August 2017)
+\section{Attendance:}
+\subsection*{Present}
+\begin{itemize}
+\item Adam Davidson, Cyrus Villacampa, James Kortman, Jeremy Hughes, Ziang Chen, Ravi Lam
+\end{itemize}
+\subsection*{Absent second half}
+\begin{itemize}
+\item Linlin Song (AWOL), Ziang Chen (apology)
+\end {itemize}
+
+\section{Details:}
+\begin{enumerate}
+\item We have options for building the robot. Treads, or wheels with ball bearing? Treads will be easier for turning on the spot, so we'll try treads.
+\item IDE's: Eclipse IntelliJ. Do we need to use one? We agreed yes, and we'll use Eclipse. Cyrus will start a project and upload to Github.
+\item Adam completed UML diagram
+\item Division of responsibilities:\\
+\textbf{Handler} \begin{itemize}
+\item UI - Ziang
+\item Handler - Ravi/Cyrus
+\item Communications - James
+\end{itemize}
+\textbf{Robot} \begin{itemize}
+\item Communications - James
+\item Translation - Adam/James
+\item Motion - Adam
+\item Hardware - Jeremy/Adam
+\end{itemize}
+
+\item Cyrus and James completed flow diagrams
+\item Discussed how the software will work
+\item Clarifying autonomous vs manual mode. Autonomous you just click a point on a map. If it's in autonomous and no point is selected, it will just survey randomly
+\item James is happy to do communication
+\item Robot movement. We need movement to be accurate, Feedback from the gyroscope was suggested, but it would be too complicated to start off with and perhaps not needed. Adam will test and measure the robot's performance without it.
+\item Controlling robot speed is an extra feature we will add in, it won't be a part of the very basic functionality.
+\item Communication between robot and server is a black box where plain text goes in and plain text comes out.
+\item It was asked whether or not to remove unimplemented features for the week 6 demonstration. We agreed to make a GUI closer to the final product - i.e. don't remove unimplemented features.
+\end{enumerate}
+
+Meeting closed at 3:43pm.
+
+\section{Actions Points:}
+\begin{enumerate}
+\item Adam to test robot motors and sensors with the kit over the weekend
+\end{enumerate}
+
+\end{document}

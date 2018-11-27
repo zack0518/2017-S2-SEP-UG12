@@ -1,0 +1,1468 @@
+\documentclass[12pt,a4paper]{article}
+% Set paper dimension
+\usepackage[
+  top=2cm,
+  bottom=2cm,
+  left=2cm,
+  right=2cm,
+  headheight=17pt, % as per the warning by fancyhdr
+  includehead,includefoot,
+  heightrounded, % to avoid spurious underfull messages
+]{geometry}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{epstopdf}
+\usepackage{glossaries} 
+\usepackage{float}
+\usepackage{paralist}
+\usepackage{listings, lstautogobble}
+%\usepackage{xcolor}
+\lstset{
+   language=Java,
+   basicstyle=\scriptsize\ttfamily,
+   keywordstyle=\color{blue},
+  commentstyle=\ttfamily\itshape\color{gray},
+   stringstyle=\ttfamily,
+   showstringspaces=false,
+   breaklines=true,
+   frameround=ffff,
+   frame=single,
+   rulecolor=\color{black},
+   autogobble=true
+}
+
+%\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+%\lstset{
+%    keywordstyle=\color{RoyalBlue},
+%    basicstyle=\scriptsize\ttfamily,
+%    commentstyle=\ttfamily\itshape\color{gray},
+%    stringstyle=\ttfamily,
+%    showstringspaces=false,
+%    breaklines=true,
+%    frameround=ffff,
+%    frame=single,
+%    rulecolor=\color{black}
+%}
+
+
+
+% For the revision table
+\usepackage[table]{xcolor}
+\setlength{\arrayrulewidth}{0.5mm}
+\setlength{\tabcolsep}{12pt}
+\renewcommand{\arraystretch}{1.5}
+\renewenvironment{enumerate}[1]{\begin{compactenum}#1}{\end{compactenum}}
+
+\usepackage{hyperref}
+ % Margins
+\topmargin=-0.1in
+
+% Headings
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\textbf{Page} \thepage}
+\lhead{Testing Report for Lunar Rover Mapping Robot}
+
+\pagenumbering{roman}
+
+\begin{document}
+	\begin{titlepage}
+		\centerline{\rule{6.5in}{4pt}}
+		\vspace*{0.5in}
+		\begin{center}
+			{\fontfamily{cmr}\selectfont
+				{\fontsize{33}{40}\selectfont \textbf{Testing Report}}\\
+				\vspace*{0.5in}
+				{\fontsize{20}{40}\selectfont for}\\
+				\vspace*{0.5in}
+				{\fontsize{33}{40}\selectfont \textbf{Lunar Rover Mapping Robot}}\\
+				\vspace*{0.65in}
+				\vspace*{2.5cm}
+				{\fontsize{25}{40}\selectfont \textbf{Group: UG12}}\\
+				\vspace*{2.5cm}
+                \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.5\textwidth]{UofA.jpg}
+              \end{figure}
+              \vspace*{\fill}
+			}
+		\end{center}
+		\centerline{\rule{6.5in}{4pt}}
+	\end{titlepage}
+	
+	\newpage
+	
+	\tableofcontents
+	
+    \newpage
+    
+    \vspace{50px}
+    \lstlistoflistings
+    %\listoffigures
+    %\vspace{50px}
+    %\listoftables
+	
+	\newpage
+	
+    	\pagenumbering{arabic}
+	
+	\section{Introduction}
+	\subsection{Purpose}
+	This document details the testings performed on the software that verifies and validates its correctness and it's fulfillment of a subset of the requirements set out in the Software Requirements Specification (SRS). 
+
+	\subsection{Product background}
+   	The product that was tested in this document is the software for the Lunar Rover Mapping Robot project. The software that was tested is required to control the robot remotely, which will survey an area either manually or autonomously, and accurately display the important features, detected by the sensors, of the survey area on the graphical user interface (GUI).
+	
+	\section{Scope of testing}
+	This section presents the items that were tested and presented in this document, and also the features of the software system that are tested and are not tested.
+	\subsection{Test items}
+	The following are the unit items that were tested and are presented in this document:
+	\begin{itemize}
+		\item Handler class
+		\item Robot class
+		\item NoGoZonesMarker class
+		\item PointToCommandParameter class
+		\item DistanceSensorInterpreter class
+        \item HandlerToRobotQueue class
+        \item Map class
+        \item MapXMLImporter class
+        \item MapXMLExporter class
+        \item MSEColorSensorInterpreter class
+        \item PathFinding class
+        \item ShapeDetection class
+	\end{itemize}
+	\subsection{Features tested}
+	\begin{itemize}
+		\item Capability of the software program to send commands to the robot
+		\item Capability of the robot to receive, process and execute commands
+		\item Capability of the software program to receive, process and display sensor data
+		\item Capability of the software program to mark areas that the robot cannot move
+		\item Capability of the software program to find a path, off line (non real-time) and real-time, from the robot's position to a destination point while avoiding obstacles/craters/no-go-zones
+		\item Capability of the software program to import/export XML map files
+	\end{itemize}
+	\subsection{Features not tested}
+	\begin{itemize}
+		\item Capability of robot to explore the survey area autonomously without operator intervention
+	\end{itemize}
+	
+	\section{Tests}
+	\subsection{Unit test}
+	\subsubsection{Handler}
+	\begin{itemize}
+	% Description of what the class does
+	\item \textbf{Description}: The Handler class is responsible for processing sensor data received from the robot's sensors and sending motion commands (for both manual and autonomous mode) to the robot for it to execute.
+	\item \textbf{Test cases}:
+	% One for every test case
+	\begin{itemize}
+		\item \textbf{Description}:	Manual move forward, backward, turn (anti)clockwise and emergency stop
+		\item \textbf{Rationale}:	Tests if the Handler class can successfully send motion commands to the robot
+		\item \textbf{Procedure}:
+		\begin{itemize}
+			\item For each motion create an event associated to it and push it to the HandlerToRobotQueue
+			\item Run the \texttt{step} method in the Handler class
+			\item Extract the event pushed into the queue and check if it is equal to the event that was created
+		\end{itemize}
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+	\end{itemize}
+	
+	\subsubsection{Robot}
+	\begin{itemize}
+	% Description of what the class does
+	\item \textbf{Description}: The Robot class is responsible for converting the received commands from the Handler class into commands that the robot can understand. Furthermore, it is also responsible for sending sensor data back to the Handler class for processing and also the robot's position and orientation.
+	\item \textbf{Test cases}:
+	% One for every test case
+	\begin{itemize}
+		\item \textbf{Description}:	Sensor functionality tests
+		\item \textbf{Rationale}:	Tests if the sensors is functioning correctly such that it can send back sensible data back to the computer
+		\item \textbf{Procedure}:	Manual test suite is provided in listing \ref{lst:SensorManualTestSuite} under Appendix A
+		\item \textbf{Result}:		PASSED
+	\end{itemize}
+	\begin{itemize}
+		\item \textbf{Description}:	Robot motion and position tests
+		\item \textbf{Rationale}:	Tests if the robot can execute certain motions, such as turning, moving forward/backward, stopping and also if it can update it's position correctly
+		\item \textbf{Procedure}:	Manual test suite is provided in listing \ref{lst:RobotMotionManualTestSuite} under Appendix A
+		\item \textbf{Result}:		PASSED
+	\end{itemize}
+	\begin{itemize}
+		\item \textbf{Description}:	Colour sensor motor motion tests
+		\item \textbf{Rationale}:	Tests if the motor used to turn the colour sensor functions correctly, such that it move the colour sensor to either left or right
+		\item \textbf{Procedure}:	Manual test suite is provided in listing \ref{lst:ColourSensorMotorMotionManualTestSuite} under Appendix A
+		\item \textbf{Result}:		PASSED
+	\end{itemize}
+	\begin{itemize}
+		\item \textbf{Description}:	Receive and send messages from/to the Handler
+		\item \textbf{Rationale}:	Tests if the Robot class can receive and send messages from/to the Handler class
+		\item \textbf{Procedure}:	Manual test suite is provided in listing \ref{lst:RobotMessageManualTestSuite} under Appendix A
+		\item \textbf{Result}:		PASSED
+	\end{itemize}
+	\end{itemize}
+	
+	\subsubsection{NoGoZonesMarker}
+	\begin{itemize}
+	% Description of what the class does
+	\item \textbf{Description}:	The NoGoZonesMarker class is responsible for marking the no-go-zone areas (in the form of a rectangle) in the map. It uses two opposite vertices (upper [right/left] and lower [right/left]) of a rectangle to mark the area.
+	\item \textbf{Test cases}:
+	% One for every test case
+	\begin{itemize}
+		\item \textbf{Description}:	Marking of single area
+		\item \textbf{Rationale}:	Tests if it marks a rectangular area when the start and end points are inside the bounds of the map. Given points are: upper left(start) and bottom right(end)
+		\item \textbf{Procedure}:	
+			\begin{itemize}
+			\item Pick two points (start and end) from the map, where the starting point is the upper left vertex and the ending point is the bottom right vertex of the rectangle
+			\item Invoke the \texttt{mark(start, end)} method of the NoGoZonesMarker class with the picked two points as the argument
+			\item Extract points inside and at the boundary of the rectangle in the map and check if they are marked as no-go-zones
+		\end{itemize}
+		\item \textbf{Result}:		PASSED
+	\end{itemize}
+	\begin{itemize}
+		\item \textbf{Description}:	Marking of multiple areas
+		\item \textbf{Rationale}:	Tests if it can mark multiple rectangular areas in the map.
+		\item \textbf{Procedure}:	
+			\begin{itemize}
+			\item Pick any two points (start and end) from the map
+			\item Invoke the \texttt{mark(start, end)} method of the NoGoZonesMarker class with the picked two points as the argument
+			\item Repeat the first two steps for multiple times
+			\item Extract points inside and at the boundary of the rectangle in the map and check if they are marked as no-go-zones
+		\end{itemize}
+		\item \textbf{Result}:		PASSED
+	\end{itemize}
+	\end{itemize}
+	
+	\subsubsection{PointToCommandParameter}
+	\begin{itemize}
+	% Description of what the class does
+	\item \textbf{Description}:	The PointToCommandParameter class is responsible for converting a given point in the map into turning angle, where it is used to make the robot face the correct direction, and the distance to travel, where it is used to move the robot at a certain distance from its position.
+	\item \textbf{Test cases}:
+	% One for every test case
+	\begin{itemize}
+		\item \textbf{Description}:	Negative turning angle
+		\item \textbf{Rationale}:	Tests if the class can determine if a negative turning angle (anti-clockwise) is needed for the robot to face the correct direction to reach its destination. A negative angle is preferred than a positive angle because in this case it is more efficient (in terms of how far it needs to turn relative to its current orientation) to turn anti-clockwise direction than clockwise.
+		\item \textbf{Procedure}:	Automated test suite is provided in listing \ref{lst:PointToCommandParameterNegativeAngleTestSuite} under Appendix A
+		\item \textbf{Result}:		PASSED
+	\end{itemize}
+	\begin{itemize}
+		\item \textbf{Description}:	Positive turning angle
+		\item \textbf{Rationale}:	Tests if the class can determine if a positive turning angle (clockwise) is needed for the robot to face the correct direction to reach its destination. A positive angle is preferred than a negative angle because in this case it is more efficient (in terms of how far it needs to turn relative to its current orientation) to turn clockwise direction than anti-clockwise.
+		\item \textbf{Procedure}:	Automated test suite is provided in listing \ref{lst:PointToCommandParameterPositiveAngleTestSuite} under Appendix A
+		\item \textbf{Result}:		PASSED
+	\end{itemize}
+	\end{itemize}
+	
+	\subsubsection{DistanceSensorInterpreter}
+	\begin{itemize}
+	% Description of what the class does
+	\item \textbf{Description}:	The DistanceSensorInterpreter class processes the data received from the ultrasonic sensor and stores it in the map.
+	\item \textbf{Test cases}:
+	% One for every test case
+	\begin{itemize}
+		\item \textbf{Description}:	Loading of obstacle data into the map
+		\item \textbf{Rationale}:	Tests if the class can successfully load the obstacle data into the map given a robot state and ultrasonic sensor reading.
+		\item \textbf{Procedure}:	Automated test suite is provided in listing \ref{lst:DistanceSensorInterpreterAutomatedTestSuite} under Appendix A
+		\item \textbf{Result}:		PASSED
+	\end{itemize}
+	\end{itemize}
+    
+    \subsubsection{HandlerToRobotQueue}
+	\begin{itemize}
+	% Description of what the class does
+	\item \textbf{Description}: The HandlerToRobotQueue class is responsible for creating a thread-safe queue that communicates high-level actuation information from the Handler module to the Robot module.
+	\item \textbf{Test cases}:
+	% One for every test case
+	\begin{itemize}
+		\item \textbf{Description}:	Push varying-valued, fixed-value and value-ignoring messages to the queue
+		\item \textbf{Rationale}: Tests if the class can send and receive the messages
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:HandlerToRobotQueueAutomatedTestSuite} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+	\end{itemize}
+    
+    \subsubsection{Map}
+	\begin{itemize}
+	% Description of what the class does
+	\item \textbf{Description}: The Map class is responsible for setting up a virtual map which contains properties and colors of each position.  It provides setting and getting properties from the given coordinates and printing out the map.
+	\item \textbf{Test cases}:
+	% One for every test case
+	\begin{itemize}
+		\item \textbf{Description}:	Getting properties
+		\item \textbf{Rationale}: Tests if the class can get the correct properties from the dummy map
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:MapAutomatedTestSuite1} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+    \begin{itemize}
+		\item \textbf{Description}:	Getting colors
+		\item \textbf{Rationale}: Tests if the class can get the correct colors from the dummy map
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:MapAutomatedTestSuite2} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+    \begin{itemize}
+		\item \textbf{Description}:	Printing map
+		\item \textbf{Rationale}: Tests if the class can print out the virtual map
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:MapAutomatedTestSuite3} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+	\end{itemize}
+    
+    \subsubsection{MapXMLImporter}
+	\begin{itemize}
+	% Description of what the class does
+	\item \textbf{Description}: The MapXMLImporter class is responsible for importing a XML file which contains map informations including properties, colors, coordinates, etc.  The class parses and rasterizes the information to the virtual map.
+	\item \textbf{Test cases}:
+	% One for every test case
+	\begin{itemize}
+		\item \textbf{Description}:	Diagonal rasterization
+		\item \textbf{Rationale}: Tests if the class can rasterizes lines which are diagonal
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:MapXMLImporterAutomatedTestSuite1} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+    \begin{itemize}
+		\item \textbf{Description}:	Horizontal and vertical rasterization
+		\item \textbf{Rationale}: Tests if the class can rasterizes lines which are horizontal and vertical
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:MapXMLImporterAutomatedTestSuite2} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+    \begin{itemize}
+		\item \textbf{Description}:	Parsing the XML file
+		\item \textbf{Rationale}: Tests if the class can parse the inputed XML file informations to generate a map.
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:MapXMLImporterAutomatedTestSuite3} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+	\end{itemize}
+    
+    \subsubsection{MapXMLExporter}
+	\begin{itemize}
+	% Description of what the class does
+	\item \textbf{Description}: The MapXMLExporter class is responsible for exporting the current virtual map and storing it in a XML format file.  The generated file stores in the absolute path.  
+	\item \textbf{Test cases}:
+	% One for every test case
+	\begin{itemize}
+		\item \textbf{Description}:	Firstly import an example map from \texttt{example.xml} and export the current map to a new file \texttt{output-test.xml} afterwards. 
+		\item \textbf{Rationale}: Tests the class if it can export a same map as \texttt{example.xml}.
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:MapXMLExporterAutomatedTestSuite} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+	\end{itemize}
+    
+    \subsubsection{MSEColorSensorInterpreter}
+	\begin{itemize}
+	% Description of what the class does
+	\item \textbf{Description}: The MSEColorSensorInterperter class is responsible for taking raw RGB color data and interpreting it as some kind of terrain element.
+	\item \textbf{Test cases}:
+	% One for every test case
+	\begin{itemize}
+		\item \textbf{Description}:	Compare the colors of each terrain elements in the map with the related colors
+		\item \textbf{Rationale}: Tests if the class can successfully identifies and map updates for the assigned colors
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:MSEColorSensorInterpreterAutomatedTestSuite1} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+    \begin{itemize}
+		\item \textbf{Description}:	Sets the colors of each features
+		\item \textbf{Rationale}: Tests if the class can set the given colors to the map
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:MSEColorSensorInterpreterAutomatedTestSuite2} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+	\end{itemize}
+    
+    \subsubsection{PathFinding}
+	\begin{itemize}
+	% Description of what the class does
+	\item \textbf{Description}: The PathFinding class is responsible for calculating and return a path from two given points.  Obstacles, craters, no-go zones and borders are not allowed to pass through, thus the returned path should take the bypass.
+	\item \textbf{Test cases}:
+	% One for every test case
+	\begin{itemize}
+		\item \textbf{Description}:	Without any obstacles
+		\item \textbf{Rationale}: Tests the class can return a path
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:PathFindingAutomatedTestSuite1} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+    \begin{itemize}
+		\item \textbf{Description}:	One obstacle with rectangular shape
+		\item \textbf{Rationale}: Tests the class can return a path which detour the obstacle
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:PathFindingAutomatedTestSuite2} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+    \begin{itemize}
+		\item \textbf{Description}:	Two obstacles with rectangular shape
+		\item \textbf{Rationale}: Tests the class can return a path which detour the obstacles
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:PathFindingAutomatedTestSuite3} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+    \begin{itemize}
+		\item \textbf{Description}:	An obstacle which wraps the destination point
+		\item \textbf{Rationale}: Tests the class can return no path
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:PathFindingAutomatedTestSuite4} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+    \begin{itemize}
+		\item \textbf{Description}:	Multiple obstacles and craters
+		\item \textbf{Rationale}: Tests the class can return a path which detour the obstacles
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:PathFindingAutomatedTestSuite5} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+	\end{itemize}
+    
+    \subsubsection{ShapeDetection}
+	\begin{itemize}
+	% Description of what the class does
+	\item \textbf{Description}: The ShapeDetection class is used to classify 3 different types of track which are footsteps, vehicle tracks and landing tracks by their patterns.
+	\item \textbf{Test cases}:
+	% One for every test case
+	\begin{itemize}
+		\item \textbf{Description}:	Classifying between footsteps and tracks
+		\item \textbf{Rationale}: Tests if the class can successfully distinguish footsteps and tracks from the given map with assuming tracks are not sticking together.  
+		\item \textbf{Procedure}: Automated test suite is provided in listing \ref{lst:ShapeDetectionAutomatedTestSuite} under Appendix A
+		\item \textbf{Result}: PASSED
+	\end{itemize}
+	\end{itemize}
+	
+	\subsection{Integration test}
+	\subsubsection{Manual mode}
+	\begin{itemize}
+		\item \textbf{Description}:	Tests if the robot would respond with the correct motion (i.e. move forward/backward, stop and turn [anti]-clockwise) given a key on the keyboard is pressed or a button is pressed on the GUI by the operator.
+		\item \textbf{Procedure}:
+		\begin{itemize}
+			\item Create instances of Handler, Robot, RobotToHandlerQueue, HandlerToRobotQueue and the GUI
+			\item Connect them together and enable manual mode
+			\item Press keys on the keyboard associated to a robot motion or click button on the GUI using a mouse/trackpad
+			\item Observe that the robot has responded with the correct motion
+		\end{itemize}
+		\item \textbf{Result}:		PASSED (Robot responded with correct motion associated to a pressed key on the keyboard or a clicked button on the GUI)
+	\end{itemize}
+	
+	\subsubsection{Auto mode}
+	\begin{itemize}
+		\item \textbf{Description}:	Tests if the robot can automatically find a path from its current position to a destination point and move there within a finite time without any obstacles or some impassable area.
+		\item \textbf{Procedure}:
+		\begin{itemize}
+			\item Create instances of Handler, Robot, RobotToHandlerQueue, HandlerToRobotQueue, PathFinding, DecisionMaker and the GUI
+			\item Connect them together and enable auto mode
+			\item Click a point on the map on the GUI
+			\item Observe that the robot has moved to the correct position on the map
+		\end{itemize}
+		\item \textbf{Result}:		PASSED (Robot has moved to the correct position however it has taken a considerable amount of time to get there and this is without any obstacles)
+	\end{itemize}
+	
+	\subsubsection{Map display}
+	\begin{itemize}
+		\item \textbf{Description}: Tests if the software program can display the important features of the survey area, that are visually distinctive, on the map on the GUI
+		\item \textbf{Procedure}:
+		\begin{itemize}
+			\item Create instances of required classes and the GUI
+			\item Connect them together and enable manual mode
+			\item Drive the robot to a position on the paper map on which the colour sensor is directly on top of a certain feature (i.e. crater/border/radiation/tracks) on the map or move the robot to a position on the map where the ultrasonic sensor is directly in front of an obstacle.
+			\item Observe that the Handler processes the received data correctly and displays it on the GUI
+			\item Perform the last two steps repeatedly for other features of the map.
+		\end{itemize}
+		\item \textbf{Result}:		PASSED
+	\end{itemize}
+	
+	\section{Appendix A - Code listings}
+	\begin{lstlisting}[caption=Sensor manual test suite, captionpos=b, label={lst:SensorManualTestSuite}]
+	public void readGyroSensorTest() {
+        // This function can be tested by measuring the angle as the robot turns and comparing
+        // it (with a protractor or equivalent). Rotate the robot smoothly. This can be done by 
+        // hand or through the software.
+        // The return values can be displayed by using the showRobotMessages debug setting.
+        }
+        public void readDistanceSensorTest() {
+        // This function can be tested by measuring the distance and comparing it (with a ruler) 
+        // with the distance the ultrasonic sensor is giving. ultrasonicSensor() returns the 
+        // distance detected plus the distance from the centre of the robot to the head of the 
+        // sensor as set by the headLength variable.
+        // The return values can be displayed by using the showRobotMessages debug setting.
+        }
+        public void readColorSensorTest() {
+        // This function can be tested against various colors on a sheet of paper. The returned 
+        // value is extremely sensitive to changing lighting conditions, or the area of the colour 
+        // beneath the sensor. For best results, use solid colours in blocks twice the size of the 
+        // sensor head. If available, use independent measurements of colours, and configure the
+        // reference colours in Settings, and view output of the ColorDetector.
+        // The return values can be displayed by using the showRobotMessages debug setting.
+        }
+	\end{lstlisting}
+	\begin{lstlisting}[caption=Robot motion manual test suite, captionpos=b, label={lst:RobotMotionManualTestSuite}]
+	public void setMotorSpeedsTest() {
+        // This function can be tested by changing the values of driveSpeed and colorMoverSpeed, 
+        // and and observing the change in speed when using motors under operation.
+        // The values should be tuned to provide smooth motion, without too long an acceleration.
+        }
+        public void isMovingTest() {
+        // This function can be tested by turning on the showUpdatePositionOutput debug setting, 
+        // and observing the output while robot is under operation. Should be true whenever the 
+        // main motors are in motion.
+        }
+        public void isDrivingTest() {
+        // This function can be tested by turning on the showUpdatePositionOutput debug setting, 
+        // and observing the output while robot is under operation. Should be true whenever the 
+        // main motors are turning the same direction (forwards or backwards).
+        }
+        public void isTurningTest() {
+        // This function can be tested by turning on the showUpdatePositionOutput debug setting, 
+        // and observing the output while robot is under operation. Should be true whenever the 
+        // main motors are turning in the opposite direction (causing robot to turn left/right).
+        }
+        public void isArmMovingTest() {
+        // This function can be tested by turning on the showUpdatePositionOutput debug setting, 
+        // and observing the output while robot is under operation. Should be true whenever the 
+        // main motors are turning in the opposite direction (causing robot to turn left/right).
+        }
+        public void motorDistanceTest() {
+        // This function can be tested by turning on the showUpdatePositionOutput debug setting, 
+        // and observing the output while robot is under operation. After a forwards/backwards
+        // motion, compare outputed value to the physical measurement.
+        // Calibrate by setting moveErr based on the difference between the results to fix error
+        // caused by motor inaccuracies.
+        }
+        public void updatePositionTest() {
+        // This function can be tested by turning on the showUpdatePositionOutput debug setting, 
+        // and observing the output while robot is under operation. Compare distance, angle, and 
+        // position measurements of the physical robot with the reported values.
+        }
+        public void driveTest(float distance) {
+        // This function can be tested by sending move back and forward comands in manual mode and
+        // auto mode. Robot should move the approriate direction, and in the case of auto mode, 
+        // the appropriate distance (the distance travelled may be greater than specified due to 
+        // non-instantaneous acceleration, but should be properly reported by the robot).
+        // Can also test changing the acceleration values of the motors and see that any change is
+        // reflected by the robot's motion.
+        }
+        public void turnTest(float degrees) {
+        // This function can be tested by sending turn left and right comands in manual mode and
+        // auto mode. Robot should move the approriate direction, and in the case of auto mode, 
+        // the appropriate angle (the angle travelled may be greater than specified due to 
+        // non-instantaneous acceleration, but should be properly reported by the robot).
+        // Can also test changing the acceleration values of the motors and see that any change is
+        // reflected by the robot's motion.
+        }
+        public void stopDrivingTest() {
+        // This function can be tested by observing that the robot stops when the function is 
+        // called. The tachometers should also be reset (to 0) in this function.
+        }
+        public void interupt() {
+        // This function can be tested by causing the robot to trigger a reflex action, and 
+        // verifying that an interupt message is sent in response.
+        }
+        public void objectAvoidTest() {
+        // This function can be tested by causing the robot to trigger a reflex action that makes
+        // the robot react.
+        }
+        public void reflexTest() {
+        // This function can be tested by:
+        // 1. Verifing that this function is called regularly
+        // 2. Trying to drive the robot into obstacles and the distance if statement is triggered.
+        // 3. Trying to drive the robot over a black line and the color if statement is triggered.
+        }
+    	\end{lstlisting}
+	\begin{lstlisting}[caption=Colour sensor motor motion manual test suite, captionpos=b, label={lst:ColourSensorMotorMotionManualTestSuite}]
+	public void colorMoverForeverTest(float direction) {
+        // This function can be tested by:
+        // 1. Verifying that the color mover arm turns until told to stop.
+        // 2. Verify that the arm rotates in the desired direction
+        }
+        public void colorMoverStopTest() {
+        // This function can be tested by verifying that the color mover arm stops moving once 
+        // this function is called.
+        }
+	\end{lstlisting}
+	\begin{lstlisting}[caption=Robot message manual test suite, captionpos=b, label={lst:RobotMessageManualTestSuite}]
+	public void sendMessageTest(boolean isPriority) {
+        // This function can be tested by enabling the showRobotMessages debug setting.
+        // This funciton has been overloaded to make priority an optional argument. 
+        // The other function takes no arguments and calls this function with parameter set false.
+        }
+        public void stepTest() {
+        // This function can be tested by:
+        // 1. Verifing that messages can be read and the corresponding functions are called. 
+        //      > This is done by turning on the showRobotCommands debug setting.
+        // 2. Verifying the updatePosition function is called.
+        //      > This is done by turning on the showUpdatePositionOutput debug setting.
+        // 3. Verifying that motion commands received while in auto mode are performed correctly.
+        // 4. Verifying that messages are sent regularly.
+        //      > This is done by turning on the showRobotMessages debug setting and checking for 
+        //        regular messages with "isPriority: false".
+        }
+	\end{lstlisting}
+	\begin{lstlisting}[caption=PointToCommandParameter negative angle test suite,captionpos=b,label={lst:PointToCommandParameterNegativeAngleTestSuite}]
+	public void testNegativeTurningAngle() {
+		PointToCommandParameterConverter ptcpc = new PointToCommandParameterConverter();
+		Point point = new Point(-1.0f, -2.0f);
+		Point robotPosition = new Point(4.0f, 3.0f);
+		float robotOrientation = -20.0f;
+		PointToCommandParameterConverter.AngleDistance result = ptcpc.convert(
+				point, 
+				robotPosition, 
+				robotOrientation);
+		assertEquals(result.angle, 155.0f, 0.1);
+		assertEquals(result.distance, 7.071f, 0.1);
+		
+		point = new Point(-2.0f, 2.5f);
+		robotPosition = new Point(3.0f, -3.0f);
+		robotOrientation = -110.0f;
+		result = ptcpc.convert(
+				point, 
+				robotPosition, 
+				robotOrientation);
+		assertEquals(result.angle, 152.27f, 0.1);
+		assertEquals(result.distance, 7.43f, 0.1);
+		
+		point = new Point(-3.0f, 2.0f);
+		robotPosition = new Point(-1.0f, 0.5f);
+		robotOrientation = -70.0f;
+		result = ptcpc.convert(
+				point, 
+				robotPosition, 
+				robotOrientation);
+		assertEquals(result.angle, 123.13f, 0.1);
+		assertEquals(result.distance, 2.5f, 0.1);
+	}
+	\end{lstlisting}
+	\begin{lstlisting}[caption=PointToCommandParameter positive angle test suite, captionpos=b, label={lst:PointToCommandParameterPositiveAngleTestSuite}]
+	public void testPositiveTurningAngle() {
+		PointToCommandParameterConverter ptcpc = new PointToCommandParameterConverter();
+		Point point = new Point(5.0f, 1.0f);
+		Point robotPosition = new Point(2.0f, 4.0f);
+		float robotOrientation = -60.0f;
+		PointToCommandParameterConverter.AngleDistance result = ptcpc.convert(
+				point, 
+				robotPosition, 
+				robotOrientation);
+		assertEquals(result.angle, -75.0f, 0.1);
+		assertEquals(result.distance, 4.24f, 0.1);
+		
+		point = new Point(-3.0f, 2.0f);
+		robotPosition = new Point(-1.0f, 0.5f);
+		robotOrientation = 150.0f;
+		result = ptcpc.convert(
+				point, 
+				robotPosition, 
+				robotOrientation);
+		assertEquals(result.angle, -96.89f, 0.1);
+		assertEquals(result.distance, 2.5f, 0.1);
+	}
+	\end{lstlisting}
+	\begin{lstlisting}[caption=DistanceSensorInterpreter automated test suite, captionpos=b, label={lst:DistanceSensorInterpreterAutomatedTestSuite}]
+	public void test() {
+		Map map = new Map(0.01f, 20, 20); // 20cm * 20cm
+		DistanceSensorInterpreter dsi = new DistanceSensorInterpreter();
+        
+        		// At a heading of 0.
+		assertEquals(dsi.interpret(0.055f, map, new Point(0.0f, 0.0f), 0.0f),
+			DistanceSensorInterpreter.Interpretation.SUCCESS);
+                 try {
+                 	assertEquals(map.get(Map.Property.OBSTACLE, new Point(0.0f, 0.055f)), 1.0f, 0.001f);
+		} catch (Map.OutOfMapBoundsException e) {
+			fail("Out of bounds");
+		}
+		
+		// At a heading of 270.
+		assertEquals(dsi.interpret(0.04f, map, new Point(0.03f, -0.02f), 270.0f),
+			DistanceSensorInterpreter.Interpretation.SUCCESS);
+		try {
+			assertEquals(map.get(Map.Property.OBSTACLE, new Point(0.07f, -0.02f)), 1.0f, 0.001f);
+		} catch (Map.OutOfMapBoundsException e) {
+			fail("Out of bounds");
+		}
+		
+		// At a heading of 140.
+		assertEquals(dsi.interpret(0.07f, map, new Point(0.02f, 0.03f), 140.0f),
+			DistanceSensorInterpreter.Interpretation.SUCCESS);
+		try {
+			assertEquals(map.get(Map.Property.OBSTACLE,
+				new Point(0.02f - 0.07f * (float)Math.cos(Math.toRadians(50.0f)),
+					0.03f - 0.07f * (float)Math.sin(Math.toRadians(50.0f)))
+				),
+				1.0f, 0.001f);
+		} catch (Map.OutOfMapBoundsException e) {
+                 	fail("Out of bounds");
+		}
+		
+		// Test when provided with infinity.
+		assertEquals(dsi.interpret(Float.POSITIVE_INFINITY, map, new Point(-0.07f, -0.05f), 70.0f),
+			DistanceSensorInterpreter.Interpretation.INFINITY);
+		assertEquals(dsi.interpret(Float.NEGATIVE_INFINITY, map, new Point(10.0f, 30.0f), 130.0f),
+			DistanceSensorInterpreter.Interpretation.INFINITY);
+		
+		// Test when given an out-of-bounds location.
+		assertEquals(dsi.interpret(17.0f, map, new Point(1.0f, 2.0f), 170.0f),
+			DistanceSensorInterpreter.Interpretation.OUT_OF_BOUNDS);
+	}
+	\end{lstlisting}
+    
+    \begin{lstlisting}[caption=HandlerToRobotQueue automated test suite, captionpos=b, label={lst:HandlerToRobotQueueAutomatedTestSuite}]
+     public void test() {
+        float[] testValues = {-2.0f, -0.1f, 0.0f, 0.001f, 0.1f, 0.5f, 1.0f, 5.0f, 100.0f};
+        HandlerToRobotQueue q = new HandlerToRobotQueue();
+        assertFalse(q.hasNewMessages());
+        
+        // Test varying-valued messages.
+        HandlerToRobotQueue.CommandType[] varied_value_messages = {
+                HandlerToRobotQueue.CommandType.SET_DEFAULT_SPEED,
+                HandlerToRobotQueue.CommandType.SET_DEFAULT_TURN_RATE,
+                HandlerToRobotQueue.CommandType.AUTO_MOVE_METRES,
+                HandlerToRobotQueue.CommandType.AUTO_TURN_DEGREES
+        };
+        for (float expectedValue : testValues) {
+            for (HandlerToRobotQueue.CommandType messageType : varied_value_messages) {
+                String functionName = "None";
+                switch (messageType) {
+                case SET_DEFAULT_SPEED:
+                    q.setDefaultSpeed(expectedValue);
+                    functionName = "setDefaultSpeed";
+                    break;
+                case SET_DEFAULT_TURN_RATE:
+                    q.setDefaultTurnRate(expectedValue);
+                    functionName = "setDefaultTurnRate";
+                    break;
+                case AUTO_MOVE_METRES:
+                    q.moveForwardMetres(expectedValue);
+                    functionName = "moveForwardMetres";
+                    break;
+                case AUTO_TURN_DEGREES:
+                    q.turnDegrees(expectedValue);
+                    functionName = "turnDegrees";
+                    break;
+                default:
+                    throw new RuntimeException();
+                }
+                testReceiveValue(q, messageType, expectedValue, functionName);
+            }
+        }
+        
+        // Test specifically fixed-value messages.
+        q.manualMoveForward();
+        testReceiveValue(q, HandlerToRobotQueue.CommandType.MANUAL_MOVE, 1.0f, "manualMoveForward");
+        q.manualMoveBackward();
+        testReceiveValue(q, HandlerToRobotQueue.CommandType.MANUAL_MOVE, -1.0f, "manualMoveForward");
+        q.manualTurnAntiClockwise();
+        testReceiveValue(q, HandlerToRobotQueue.CommandType.MANUAL_TURN, 1.0f, "manualMoveForward");
+        q.manualTurnClockwise();
+        testReceiveValue(q, HandlerToRobotQueue.CommandType.MANUAL_TURN, -1.0f, "manualMoveForward");
+    
+        // Test value-ignoring messages.
+        q.manualStop();
+        testReceiveMessageType(q, HandlerToRobotQueue.CommandType.MANUAL_STOP, "manualStop");
+        q.emergencyStop();
+        testReceiveMessageType(q, HandlerToRobotQueue.CommandType.EMERGENCY_STOP, "emergencyStop");
+        
+    }
+   
+    private void testReceiveMessageType(HandlerToRobotQueue q, HandlerToRobotQueue.CommandType expectedType, String function) {
+        assertTrue(q.hasNewMessages());
+        HandlerToRobotQueue.Command command = q.receive();
+        assertEquals(String.format("%s: message type mismatch %s!=%s",
+                                   function, expectedType, command.messageType),
+                     command.messageType, expectedType);
+        assertFalse(q.hasNewMessages());
+    }
+    
+    private void testReceiveValue(HandlerToRobotQueue q, HandlerToRobotQueue.CommandType expectedType, float expectedValue, String function) {
+        assertTrue(q.hasNewMessages());
+        HandlerToRobotQueue.Command command = q.receive();
+        assertEquals(String.format("%s: message type mismatch %s!=%s",
+                                   function, expectedType, command.messageType),
+                     command.messageType, expectedType);
+        assertEquals(String.format("%s: value mismatch %f!=%f (type %s)",
+                                   function, expectedValue, command.value, command.messageType),
+                command.value, expectedValue, 0.001f);
+        assertFalse(q.hasNewMessages());
+    }
+
+}
+
+    \end{lstlisting}
+    
+    \begin{lstlisting}[caption=Map automated test suite 1, captionpos=b, label={lst:MapAutomatedTestSuite1}]
+     public void testGetSetMap(int size, float step) {
+        final float offset = step * (float)(size / 2);
+        Map map = new Map(step, size, size);
+        
+        // (4, 4) is the centre position (0.0, 0.0).
+        for (int i = 0; i < size; i += 1) {
+            for (int j = 0; j < size; j += 1) {
+                Point pos = new Point((float)j * step - offset + step * 0.5f,
+                                      (float)i * step - offset + step * 0.5f);
+                // Test getting.
+                for (Map.Property prop : Map.Property.values()) {
+                    if (prop == Map.Property.NONE) continue;
+                    try {
+                        float value_at = map.get(prop, pos);
+                        assertTrue(String.format("size=%d, step=%f, row=%d, col=%d, x=%f, y=%f",
+                                                 size, step, i, j, pos.xMetres, pos.yMetres),
+                                   value_at < 0.5f);
+                        map.set(prop, pos, 1.0f);
+                    } catch (Map.OutOfMapBoundsException e) {
+                        fail(String.format(
+                            "Exception thrown accessing map at position "
+                            + "row=%d,col=%d,x=%f,y=%f",
+                            i, j, pos.xMetres, pos.yMetres));
+                    }
+                }
+                
+                // Test setting.
+                for (Map.Property prop : Map.Property.values()) {
+                    if (prop == Map.Property.NONE) continue;
+                    try {
+                        float value_at = map.get(prop, pos);
+                        assertEquals(value_at, 1.0f, 0.000001f);
+                    } catch (Map.OutOfMapBoundsException e) {
+                        fail(String.format(
+                            "Exception thrown accessing map at position "
+                            + "row=%d,col=%d,x=%f,y=%f, during second loop only",
+                            i, j, pos.xMetres, pos.yMetres));
+                    }
+                }
+            }
+        }
+    }
+     \end{lstlisting}
+     
+     \begin{lstlisting}[caption=Map automated test suite 2, captionpos=b, label={lst:MapAutomatedTestSuite2}]
+     public void testGetColor() {
+        Map map = new Map(1.0f, 20, 20); // from -10 to 10 in x, y
+        final RGBColor[] colors = {
+                //new RGBColor(0.0f, 0.0f, 0.0f),
+                new RGBColor(0.0f, 0.1f, 0.8f),
+                new RGBColor(0.0f, 0.8f, 0.1f),
+                new RGBColor(0.4f, 0.7f, 0.2f),
+                new RGBColor(1.0f, 0.0f, 0.0f)
+        };
+        final Point[] positions = {
+                new Point(0.0f, 0.0f),
+                new Point(5.0f, 5.0f),
+                new Point(-2.0f, 1.0f),
+                new Point(4.0f, -9.0f),
+                new Point(-8.0f, 0.04f)
+        };
+        
+        for (Map.Property prop : Map.Property.values()) {
+            if (prop == Map.Property.NONE) continue;
+            for (RGBColor color : colors) {
+                map.setPropertyColor(prop, color);
+                for (Point pos : positions) {
+                    System.out.printf("prop: %s, color: (%f,%f,%f), pos: (%f, %f)%n",
+                            prop, color.r, color.g, color.b, pos.xMetres, pos.yMetres);
+                    try {
+                        // Check that the initial color is the base color.
+                        RGBColor beforeColor = map.getColorAtPosition(pos);
+                        assertEquals(beforeColor.r, 1.0f, 0.001f);
+                        assertEquals(beforeColor.g, 1.0f, 0.001f);
+                        assertEquals(beforeColor.b, 1.0f, 0.001f);
+                        
+                        // Check that the color is changed with the property.
+                        map.setPropertyColor(prop, color);
+                        map.set(prop, pos, 1.0f);
+                        RGBColor propertyColor = map.getColorAtPosition(pos);
+                        System.out.printf("property color: (%f, %f, %f)%n", propertyColor.r, propertyColor.g, propertyColor.b);
+                        assertEquals(color.r, propertyColor.r, 0.001f);
+                        assertEquals(color.g, propertyColor.g, 0.001f);
+                        assertEquals(color.b, propertyColor.b, 0.001f);
+                        
+                        // Check that the color is restored when the property is decreased.
+                        map.set(prop, pos, 0.05f);
+                        RGBColor afterColor = map.getColorAtPosition(pos);
+                        assertEquals(afterColor.r, 1.0f, 0.001f);
+                        assertEquals(afterColor.g, 1.0f, 0.001f);
+                        assertEquals(afterColor.b, 1.0f, 0.001f);
+                    } catch(Map.OutOfMapBoundsException e) {
+                        fail("Map out of bounds");
+                    }
+                }
+            }
+        }
+        
+    }
+     \end{lstlisting}
+     
+     \begin{lstlisting}[caption=Map automated test suite 3, captionpos=b, label={lst:MapAutomatedTestSuite3}]
+      public void testPrint() {
+        final int size = 8;
+        final float step = 1.0f;
+        Map map = new Map(1.0f, size, size);
+        System.out.printf("Visual testing of map (size=%d, step=%f)%n", size, step);
+        
+        map.printProperty(Map.Property.OBSTACLE);
+        try {
+            System.out.println("Setting (0.0, 0.0) and (2.5, 2.5)");
+            map.set(Map.Property.OBSTACLE, new Point(0.0f, 0.0f), 1.0f);
+            map.set(Map.Property.OBSTACLE, new Point(2.5f, 2.6f), 1.0f);
+        } catch (Map.OutOfMapBoundsException e) {
+            // pass
+        }
+        map.printProperty(Map.Property.OBSTACLE);
+    }
+
+}
+     \end{lstlisting}
+     
+     \begin{lstlisting}[caption=MapXMLImporter automated test suite 1, captionpos=b, label={lst:MapXMLImporterAutomatedTestSuite1}]
+     public void testRasterize() {
+        Map map = new Map(1.0f, 20, 20);
+        // Octant 0. *
+        MapXMLImporter.rasterizeLine(new Point(0.0f, 0.0f), new Point (6.0f, 2.0f),   Map.Property.OBSTACLE, map);
+        // Octant 1. *
+        MapXMLImporter.rasterizeLine(new Point(0.0f, 0.0f), new Point (1.0f, 8.0f),   Map.Property.CRATER, map);
+        // Octant 2.
+        MapXMLImporter.rasterizeLine(new Point(0.0f, 0.0f), new Point (-3.0f, 7.0f),  Map.Property.RADIATION, map);
+        // Octant 3.
+        MapXMLImporter.rasterizeLine(new Point(0.0f, 0.0f), new Point (-6.0f, 1.5f),  Map.Property.TRACKS, map);
+        // Octant 4.
+        MapXMLImporter.rasterizeLine(new Point(0.0f, 0.0f), new Point (-6.0f, -5.0f), Map.Property.RADIATION, map);
+        // Octant 5.
+        MapXMLImporter.rasterizeLine(new Point(0.0f, 0.0f), new Point (-3.0f, -8.0f), Map.Property.OBSTACLE, map);
+        // Octant 6.
+        MapXMLImporter.rasterizeLine(new Point(0.0f, 0.0f), new Point (3.0f, -9.0f),  Map.Property.CRATER, map);
+        // Octant 7.
+        MapXMLImporter.rasterizeLine(new Point(0.0f, 0.0f), new Point (9.0f, -3.0f),  Map.Property.TRACKS, map);
+        
+        map.print(null, null);
+    }
+     \end{lstlisting}
+     
+     \begin{lstlisting}[caption=MapXMLImporter automated test suite 2, captionpos=b, label={lst:MapXMLImporterAutomatedTestSuite2}]
+     public void testRasterizeVertHorizontal() {
+        Map map = new Map(1.0f, 20, 20);
+        // Vertical
+        MapXMLImporter.rasterizeLine(new Point(0.0f, 0.0f), new Point ( 9.0f,  0.0f),   Map.Property.OBSTACLE,  map);
+        MapXMLImporter.rasterizeLine(new Point(0.0f, 0.0f), new Point (-9.0f,  0.0f),   Map.Property.CRATER,    map);
+        // Horizontal
+        MapXMLImporter.rasterizeLine(new Point(0.0f, 0.0f), new Point ( 0.0f,  9.0f),   Map.Property.RADIATION, map);
+        MapXMLImporter.rasterizeLine(new Point(0.0f, 0.0f), new Point ( 0.0f, -9.0f),   Map.Property.TRACKS,    map);
+        
+        map.print(null, null);
+    }
+     \end{lstlisting}
+     
+     \begin{lstlisting}[caption=MapXMLImporter automated test suite 3, captionpos=b, label={lst:MapXMLImporterAutomatedTestSuite3}]
+     public void testParse() {
+        Map map = new Map(0.05f, 35, 35);
+        try {
+            MapXMLImporter importer = new MapXMLImporter("example.xml", map, null);
+        } catch (MapXMLImporter.Error e) {
+            System.err.printf("Error raised: %s%n", e.getMessage());
+            e.printStackTrace();
+            fail("Error raised");
+        }
+        map.print(null, null);
+    }
+}
+     \end{lstlisting}
+     
+ 	 
+     \begin{lstlisting}[caption=MapXMLExporter automated test suite, captionpos=b, label={lst:MapXMLExporterAutomatedTestSuite}]
+     public void test() {
+        final float gridSizeMetres = 0.05f;
+        final int rows = 35;
+        final int cols = 35;
+        Map map = new Map(gridSizeMetres, rows, cols);
+        // Import
+        try {
+            MapXMLImporter importer = new MapXMLImporter("example.xml", map, null);
+        } catch (MapXMLImporter.Error e) {
+            System.err.printf("Importer error raised: %s%n", e.getMessage());
+            e.printStackTrace();
+            fail("Error raised");
+        }
+        System.out.println("==============");
+        System.out.println("=== Before ===");
+        System.out.println("==============");
+        map.print(null, null);
+        
+        // Export
+        try {
+            MapXMLExporter.export("output-test.xml",
+                                  map,
+                                  new Point(0.3f, -0.2f),
+                                  270.0f,
+                                  Arrays.asList(new Point(0.5f, 0.5f), new Point(0.0f, 0.5f)),
+                                  Arrays.asList(new Point(-0.5f, 0.2f), new Point(-0.5f, 0.5f)),
+                                  Arrays.asList(new Point(0.3f, -0.8f), new Point(-0.1f, 0.1f)));
+        } catch (MapXMLExporter.Error e) {
+            System.err.printf("Exporter error raised: %s%n", e.getMessage());
+            e.printStackTrace();
+            fail("Error raised");
+        }
+        
+        // Re-import and print.
+        Map map2 = new Map(gridSizeMetres, rows, cols);
+        try {
+            MapXMLImporter importer = new MapXMLImporter("output-test.xml", map2, null);
+        } catch (MapXMLImporter.Error e) {
+            System.err.printf("Importer error raised: %s%n", e.getMessage());
+            e.printStackTrace();
+            fail("Error raised");
+        }
+        System.out.println("=============");
+        System.out.println("=== After ===");
+        System.out.println("=============");
+        map2.print(null, null);
+    }
+
+}    
+     \end{lstlisting}
+     
+     \begin{lstlisting}[caption=MSEColorSensorInterpreter automated test suite 1, captionpos=b, label={lst:MSEColorSensorInterpreterAutomatedTestSuite1}]
+     public void test() {
+        MSEColorSensorInterpreter csi = new MSEColorSensorInterpreter(0.005f);
+        Map map = new Map(0.01f, 20, 20); // 20cm * 20cm
+        
+        // Assign colors to properties.
+        csi.setExpectedColor(Map.Property.NONE,      new RGBColor(1.0f, 1.0f, 1.0f));
+        csi.setExpectedColor(Map.Property.CRATER,    new RGBColor(0.0f, 0.0f, 0.0f));
+        csi.setExpectedColor(Map.Property.RADIATION, new RGBColor(0.2f, 1.0f, 0.2f));
+
+        // Check successful identification and map updating for the assigned colors.
+        // Crater check (exact color).
+        try {
+            assertEquals(csi.interpret(new RGBColor(0.0f, 0.0f, 0.0f), map, new Point(0.05f, -0.03f)),
+                         Map.Property.CRATER);
+            assertEquals(map.get(Map.Property.CRATER, new Point(0.05f, -0.03f)), 1.0f, 0.01f);
+        } catch (Map.OutOfMapBoundsException e) {
+            fail("out of bounds");
+        }
+        
+        // Radiation check (exact color)
+        try {
+            assertEquals(csi.interpret(new RGBColor(0.2f, 1.0f, 0.2f), map, new Point(-0.01f, 0.04f)),
+                         Map.Property.RADIATION);
+            assertEquals(map.get(Map.Property.RADIATION, new Point(-0.01f, 0.04f)), 1.0f, 0.01f);
+        } catch (Map.OutOfMapBoundsException e) {
+            fail("out of bounds");
+        }
+        
+        // None check (exact color)
+        try {
+            assertEquals(csi.interpret(new RGBColor(1.0f, 1.0f, 1.0f), map, new Point(-0.01f, 0.04f)),
+                         Map.Property.NONE);
+        } catch (Map.OutOfMapBoundsException e) {
+            fail("out of bounds");
+        }
+        
+        // Bad color check.
+        try {
+            assertEquals(csi.interpret(new RGBColor(0.95f, 0.95f, 0.7f), map, new Point(0.01f, 0.02f)),
+                         Map.Property.NONE);
+        } catch (Map.OutOfMapBoundsException e) {
+            fail("out of bounds");
+        }
+        
+        // Check with some error.
+        // If crater color is black (0.0f...) and allowable MSE is 0.005f,
+        // then (0.12f, 0.0f, 0.0f) with MSE=0.004800f should JUST pass,
+        // and (0.0f, 0.123f, 0.0f) with MSE=0.005043f should JUST fail.
+        try {
+            assertEquals(csi.interpret(new RGBColor(0.12f, 0.0f, 0.0f), map, new Point(0f, 0f)),
+                         Map.Property.CRATER);
+            assertEquals(csi.interpret(new RGBColor(0.0f, 0.124f, 0.0f), map, new Point(0f, 0f)),
+                         Map.Property.NONE);
+        } catch (Map.OutOfMapBoundsException e) {
+            fail("out of bounds");
+        }
+    }
+     
+      \end{lstlisting}
+      
+      \begin{lstlisting}[caption=MSEColorSensorInterpreter automated test suite 2, captionpos=b, label={lst:MSEColorSensorInterpreterAutomatedTestSuite2}]
+     public void testSetColors() {
+        MSEColorSensorInterpreter csi = new MSEColorSensorInterpreter(0.05f);
+        RGBColor white = new RGBColor(0.120f, 0.140f, 0.110f);
+        RGBColor black = new RGBColor(0.014f, 0.018f, 0.010f);
+        RGBColor red   = new RGBColor(0.138f, 0.022f, 0.019f);
+        RGBColor green = new RGBColor(0.018f, 0.058f, 0.019f);
+        RGBColor blue  = new RGBColor(0.025f, 0.032f, 0.057f);
+        // This map contains the expected colors for each feature on the map.
+        HashMap<Map.Property, RGBColor> colorSensorColors = new HashMap<Map.Property, RGBColor>();
+        colorSensorColors.put(Map.Property.NONE,             white);
+        colorSensorColors.put(Map.Property.CRATER,           black);
+        colorSensorColors.put(Map.Property.RADIATION,        green);
+        colorSensorColors.put(Map.Property.TRACKS_FOOTSTEPS, red);
+        colorSensorColors.put(Map.Property.TRACKS_VEHICLE,   blue);
+        csi.setExpectedColors(colorSensorColors);
+        
+        // Set up dummy map.
+        Map map = new Map(1.0f, 1, 1);
+        
+        Map.Property[] detectableAndAccessibleProps = {
+                Map.Property.CRATER, Map.Property.RADIATION,
+                Map.Property.TRACKS_FOOTSTEPS, Map.Property.TRACKS_VEHICLE
+        };
+        Point pos = new Point(0.5f, 0.5f);
+        try {
+            Map.Property interpretation = csi.interpret(white, map, pos);
+            assertEquals(interpretation, Map.Property.NONE);
+            for (Map.Property prop : detectableAndAccessibleProps) {
+                map.set(prop, pos, 1.0f);
+                assertEquals(csi.interpret(colorSensorColors.get(prop), map, pos), prop);
+                map.set(prop, pos, 0.0f);
+            }
+        } catch (Map.OutOfMapBoundsException e) {
+            fail("Out of bounds");
+        }
+    }
+}
+
+      \end{lstlisting}
+     
+     \begin{lstlisting}[caption=PathFinding automated test suite 1, captionpos=b, label={lst:PathFindingAutomatedTestSuite1}]
+     public void test1() {
+		PathNode robotPosNode = new PathNode(5.0f, 0f);
+		PathNode destPosNode = new PathNode(60.0f, 90.0f);
+		pathFinding.setDistanceFromPoint(distanceFromPoint);
+		List<PathNode> foundPath = pathFinding.searchPath(robotPosNode, destPosNode);
+		Map.GridLocation robotLoc = new Map.GridLocation(Math.round(robotPosNode.xMetres), Math.round(robotPosNode.yMetres));
+		Map.GridLocation destLoc = new Map.GridLocation(Math.round(destPosNode.xMetres), Math.round(destPosNode.yMetres));
+		try {
+			map.set(Map.Property.TRACKS, destLoc, 1.0f);
+			map.set(Map.Property.TRACKS, robotLoc, 1.0f);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		for (PathNode point: foundPath) {
+			Map.GridLocation robotPath = new Map.GridLocation(Math.round(point.xMetres), Math.round(point.yMetres));
+			try {
+				map.set(Map.Property.TRACKS, robotPath, 1.0f);
+			} catch (Exception e) {
+				
+			}
+		}
+		assertFoundPath(foundPath);
+		if (Settings.Debug.showMap) {
+			map.print((Point)robotPosNode, new Point());
+		}
+	}
+     \end{lstlisting}
+    
+    \begin{lstlisting}[caption=PathFinding automated test suite 2, captionpos=b, label={lst:PathFindingAutomatedTestSuite2}]
+    public void test2() {
+		map = new Map(0.02f,     // 1cm grid size
+ 			   		  60 * 2,    
+ 			   		  60 * 2);
+		pathFinding = new PathFinding(map);
+		
+		try {
+			for (int col = 30; col <= 50; col += 1) {
+				for (int row = 20; row <= 50; row += 1) {
+					Map.GridLocation loc = new Map.GridLocation(row, col);
+					map.set(Map.Property.OBSTACLE, loc, 1.0f);
+				}
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		PathNode robotPosNode = new PathNode(30.0f, 0f);
+		PathNode destPosNode = new PathNode(20.0f, 70.0f);
+		pathFinding.setDistanceFromPoint(distanceFromPoint);
+		List<PathNode> foundPath = pathFinding.searchPath(robotPosNode, destPosNode);
+		Map.GridLocation robotLoc = new Map.GridLocation(Math.round(robotPosNode.xMetres), Math.round(robotPosNode.yMetres));
+		Map.GridLocation destLoc = new Map.GridLocation(Math.round(destPosNode.xMetres)+1, Math.round(destPosNode.yMetres)+1);
+		try {
+			map.set(Map.Property.TRACKS, destLoc, 1.0f);
+			map.set(Map.Property.TRACKS, robotLoc, 1.0f);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		for (PathNode point: foundPath) {
+			Map.GridLocation robotPath = new Map.GridLocation(Math.round(point.xMetres), Math.round(point.yMetres));
+			try {
+				map.set(Map.Property.TRACKS, robotPath, 5.0f);
+			} catch (Exception e) {
+				
+			}
+		}
+		assertFoundPath(foundPath);
+		if (Settings.Debug.showMap) {
+			map.print((Point)robotPosNode, new Point());
+		}
+	}
+     \end{lstlisting}
+     
+    \begin{lstlisting}[caption=PathFinding automated test suite 3, captionpos=b, label={lst:PathFindingAutomatedTestSuite3}]
+    public void test3() {
+		map = new Map(0.02f,     // 1cm grid size
+ 			   		  60 * 2,    
+ 			   		  60 * 2);
+		pathFinding = new PathFinding(map);
+		try {
+			final float offset = ((float)1)/100 * (float)(1/2);
+			// Rectangular obstacle 1
+			for (int col = 60; col <= 90; col += 1) {
+				for (int row = 50; row <= 90; row += 1) {
+					Map.GridLocation loc = new Map.GridLocation(row, col);
+					map.set(Map.Property.OBSTACLE, loc, 1.0f);
+				}
+			}
+			// Rectangular obstacle 2
+			for (int col = 20; col <= 50; col += 1) {
+				for (int row = 10; row <= 70; row += 1) {
+					Map.GridLocation loc = new Map.GridLocation(row, col);
+					map.set(Map.Property.OBSTACLE, loc, 1.0f);
+				}
+			}
+			// Crater
+			for (int row = 10; row <= 50; row += 1) {
+				int inc = 8;
+				if (row == 10 || row == 50) {
+					inc = 1;
+				}
+				for (int col = 7; col <= 15; col += inc) {
+					Map.GridLocation loc = new Map.GridLocation(row, col);
+					map.set(Map.Property.CRATER, loc, 1.0f);
+				}
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		PathNode robotPosNode = new PathNode(30.0f, 0f);
+		PathNode destPosNode = new PathNode(80.0f, 100.0f);
+		pathFinding.setDistanceFromPoint(distanceFromPoint);
+		List<PathNode> foundPath = pathFinding.searchPath(robotPosNode, destPosNode);
+		Map.GridLocation robotLoc = new Map.GridLocation(Math.round(robotPosNode.xMetres), Math.round(robotPosNode.yMetres));
+		Map.GridLocation destLoc = new Map.GridLocation(Math.round(destPosNode.xMetres)+1, Math.round(destPosNode.yMetres)+1);
+		try {
+			map.set(Map.Property.TRACKS, destLoc, 1.0f);
+			map.set(Map.Property.TRACKS, robotLoc, 1.0f);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		for (PathNode point: foundPath) {
+			Map.GridLocation robotPath = new Map.GridLocation(Math.round(point.xMetres), Math.round(point.yMetres));
+			try {
+				map.set(Map.Property.TRACKS, robotPath, 5.0f);
+			} catch (Exception e) {
+				
+			}
+		}
+		
+		if (Settings.Debug.showMap) {
+			map.print((Point)robotPosNode, new Point());
+		}
+	}
+     \end{lstlisting}
+    
+    \begin{lstlisting}[caption=PathFinding automated test suite 4, captionpos=b, label={lst:PathFindingAutomatedTestSuite4}]
+    public void test4() {
+		map = new Map(0.01f,     // 1cm grid size
+ 			   		  20 * 2,    
+ 			   		  20 * 2);
+		pathFinding = new PathFinding(map);
+		try {
+			int xLimit = 6;
+			final float offset = ((float)1)/100 * (float)(1/2);
+			for (int y = 19; y >= -5f; y -= 1f) {
+				if (y <= 6) {
+					xLimit = 20;
+				}
+				for (int x = 1; x < xLimit; x += 1f) {
+					map.set(Map.Property.OBSTACLE, 
+							new Point((float)x/100 - offset + ((float)1)/100 * 0.5f, 
+									  (float)y/100 - offset + ((float)1)/100 * 0.5f), 
+							1.0f);
+				}
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		PathNode robotPosNode = new PathNode(20.0f, 0f);
+		PathNode destPosNode = new PathNode(30.0f, 35.0f);
+		pathFinding.setDistanceFromPoint(distanceFromPoint);
+		List<PathNode> foundPath = pathFinding.searchPath(robotPosNode, destPosNode);
+		Map.GridLocation robotLoc = new Map.GridLocation(Math.round(robotPosNode.xMetres), Math.round(robotPosNode.yMetres));
+		Map.GridLocation destLoc = new Map.GridLocation(Math.round(destPosNode.xMetres), Math.round(destPosNode.yMetres));
+		try {
+			map.set(Map.Property.TRACKS, destLoc, 1.0f);
+			map.set(Map.Property.TRACKS, robotLoc, 1.0f);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		for (PathNode point: foundPath) {
+			Map.GridLocation robotPath = new Map.GridLocation(Math.round(point.xMetres), Math.round(point.yMetres));
+			try {
+				map.set(Map.Property.TRACKS, robotPath, 5.0f);
+			} catch (Exception e) {
+				
+			}
+		}
+		assertEquals("Testing how many points are in the found path...", 0, foundPath.size());
+		if (Settings.Debug.showMap) {
+			map.print((Point)robotPosNode, new Point());
+		}
+	}
+     \end{lstlisting}
+     
+     \begin{lstlisting}[caption=PathFinding automated test suite 5, captionpos=b, label={lst:PathFindingAutomatedTestSuite5}]
+     public void test5() {
+		map = new Map(0.02f,     // 1cm grid size
+ 			   		  60 * 2,    
+ 			   		  60 * 2);
+		pathFinding = new PathFinding(map);
+		try {
+			// Crater 1
+			for (int row = 38; row <= 65; row += 1) {
+				int inc = 23;
+				if (row == 38 || row == 65) {
+					inc = 1;
+				}
+				for (int col = 37; col <= 60; col += inc) {
+					Map.GridLocation loc = new Map.GridLocation(row, col);
+					map.set(Map.Property.CRATER, loc, 1.0f);
+				}
+			}
+			
+			// Crater 2
+			for (int row = 22; row <= 57; row += 1) {
+				int inc = 17;
+				if (row == 22 || row == 57) {
+					inc = 1;
+				}
+				for (int col = 73; col <= 90; col += inc) {
+					Map.GridLocation loc = new Map.GridLocation(row, col);
+					map.set(Map.Property.CRATER, loc, 1.0f);
+				}
+			}
+			
+			// Rectangular obstacle in the lower middle
+			for (int row = 90; row <= map.rows()-1; row += 1) {
+				for (int col = 30; col <= 36; col += 1) {
+					Map.GridLocation loc = new Map.GridLocation(row, col);
+					map.set(Map.Property.OBSTACLE, loc, 1.0f);
+				}
+			} 
+			
+			// Rectangular obstacle in the upper middle
+			for (int row = 0; row <= 40; row += 1) {
+				for (int col = 30; col <= 36; col += 1) {
+					Map.GridLocation loc = new Map.GridLocation(row, col);
+					map.set(Map.Property.OBSTACLE, loc, 1.0f);
+				}
+			} 
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		PathNode robotPosNode = new PathNode(20.0f, 0f);
+		PathNode destPosNode = new PathNode(3.0f, 50.0f);
+		pathFinding.setDistanceFromPoint(distanceFromPoint);
+		List<PathNode> foundPath = pathFinding.searchPath(robotPosNode, destPosNode);
+		Map.GridLocation robotLoc = new Map.GridLocation(Math.round(robotPosNode.xMetres), Math.round(robotPosNode.yMetres));
+		Map.GridLocation destLoc = new Map.GridLocation(Math.round(destPosNode.xMetres), Math.round(destPosNode.yMetres));
+		try {
+			map.set(Map.Property.TRACKS, destLoc, 1.0f);
+			map.set(Map.Property.TRACKS, robotLoc, 1.0f);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		for (PathNode point: foundPath) {
+			Map.GridLocation robotPath = new Map.GridLocation(Math.round(point.xMetres), Math.round(point.yMetres));
+			try {
+				map.set(Map.Property.TRACKS, robotPath, 1.0f);
+			} catch (Exception e) {
+				
+			}
+		}
+		assertFoundPath(foundPath);
+		
+		if (Settings.Debug.showMap) {
+			map.print((Point)robotPosNode, new Point());
+		}
+	}
+	
+	/**
+	 * Assert if the found path doesn't include any grid that has 
+	 * obstacle or part of a crater
+	 */
+	private void assertFoundPath(List<PathNode> foundPath) {
+		for (PathNode point: foundPath) {
+			Map.Property prop;
+			try {
+				prop = map.getProperty(convertGridLocationToPoint(point));
+				assertEquals("Testing for obstacle...", true, prop != Map.Property.OBSTACLE);
+				assertEquals("Testing for creater...", true, prop != Map.Property.CRATER);
+				assertEquals("Testing for no go zone...", true, prop != Map.Property.NO_GO_ZONE);
+				assertEquals("Testing for border...", true, prop != Map.Property.BORDER);
+			} catch (Map.OutOfMapBoundsException e) {
+				System.err.println("Out of bounds.");
+			}
+		}
+	}
+	
+	/**
+	 * Converts grid location(column, row) to point(x,y) in metres
+	 * @param node - The node that contains the grid location in the map
+	 * @return	   - The converted point
+	 */
+	private Point convertGridLocationToPoint(PathNode node) throws Map.OutOfMapBoundsException {
+		Map.GridLocation gLoc = new Map.GridLocation(Math.round(node.xMetres), Math.round(node.yMetres));
+		Point point = map.getCentrePoint(gLoc);
+		return point;
+	}
+}
+     \end{lstlisting}
+    
+    \begin{lstlisting}[caption=ShapeDetection automated test suite, captionpos=b, label={lst:ShapeDetectionAutomatedTestSuite}]
+    public void test1() {
+		
+		map = new Map(0.01f,     // 1cm grid size
+		   		  20 * 2,    
+		   		  20 * 2);
+		
+		shapeDetection = new ShapeDetection(map);
+		
+		try {	
+				//Setup dummy map
+				
+				for (int col = 19; col <= 20; col += 1) {
+					for (int row = 30; row <= 39; row += 1) {
+						Map.GridLocation loc = new Map.GridLocation(row, col);
+						map.set(Map.Property.TRACKS, loc, 1.0f);
+					}
+				}
+				
+				Map.GridLocation loc0 = new Map.GridLocation(5, 3);
+				map.set(Map.Property.TRACKS, loc0, 1.0f);
+				Map.GridLocation loc1 = new Map.GridLocation(4, 2);
+				map.set(Map.Property.TRACKS, loc1, 1.0f);
+				Map.GridLocation loc2 = new Map.GridLocation(4, 4);
+				map.set(Map.Property.TRACKS, loc2, 1.0f);
+				Map.GridLocation loc3 = new Map.GridLocation(5, 5);
+				map.set(Map.Property.TRACKS, loc3, 1.0f);
+				Map.GridLocation loc4 = new Map.GridLocation(5, 4);
+				map.set(Map.Property.TRACKS, loc4, 1.0f);
+				Map.GridLocation loc5 = new Map.GridLocation(4, 5);
+				map.set(Map.Property.TRACKS, loc5, 1.0f);
+				Map.GridLocation loc6 = new Map.GridLocation(5, 6);
+				map.set(Map.Property.TRACKS, loc6, 1.0f);			
+				Map.GridLocation loc7 = new Map.GridLocation(7, 7);
+				map.set(Map.Property.TRACKS, loc7, 1.0f);
+				Map.GridLocation loc8 = new Map.GridLocation(7, 9);
+				map.set(Map.Property.TRACKS, loc8, 1.0f);
+				
+				shapeDetection.detectionIntegration();
+			
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		if (Settings.Debug.showMap) {
+			map.print(new Point(), new Point());
+		}
+	}
+    \end{lstlisting}
+	
+\end{document}

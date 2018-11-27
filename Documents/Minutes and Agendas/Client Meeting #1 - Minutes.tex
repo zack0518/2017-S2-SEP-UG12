@@ -1,0 +1,89 @@
+\documentclass{article}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[document]{ragged2e}
+\usepackage{changepage}
+\newcounter{qcounter}
+\begin{document}
+\begin{adjustwidth}{2.5em}{0pt}
+\begin{center}
+\Large{UG 12 Client Meeting \#1 Minutes}\\
+\end{center}
+\end{adjustwidth}
+
+
+First Client Meeting Minutes (8 August 2017)
+\section{Attendance:}
+\textbf{Chair} - Jeremy\\
+\textbf{Minute Taker} - Adam\\
+\subsection*{Present}
+\begin{itemize}
+\item Adam Davidson, Cyrus Villacampa, James Kortman, Jeremy Hughes, Ravi Lam, Ziang Chen, Linlin Song
+\end{itemize}
+\subsection*{Absent}
+\begin{itemize}
+\item  
+\end {itemize}
+
+\section{Details}
+
+\begin{list}{\arabic{qcounter}:~}{\usecounter{qcounter}}
+\item \textbf{Q:} Survey area was described as bounding box of 500 metres, is that important to our implementation for our A1 page?\\
+\textbf{A:} The 500m is to give a rough estimate of how objects and stuff will be placed on the area, for scale, and for how you would map 500 metres on the graphical user interface.\\
+\item \textbf{Q:} The landing site – is that inside or outside the 500 metre region we’re meant to be surveying.\\
+\textbf{A:} Landing site is inside the 500 metres.\\
+\item \textbf{Q:} So we can assume the robot will start in that region.\\
+\textbf{A:} Yes.\\
+
+\item \textbf{Q:} Are there hard limits on the minimum or maximum speed on the robot?\\
+\textbf{A:} No – you have to work that out, based on what’s required to complete the survey in the required time, and so you aren’t colliding with objects with significant force, causing any damage. So you need to come up with a reasonable speed.\\
+\item \textbf{Q:} Are there any significant features near the landing site, other than the debris and craters we’ve been informed of? Are there any special cases we should be scanning for?\\
+\textbf{A:} What features have you identified so far?\\
+\item \textbf{Q:} We know there will be a lunar landscape with debris and craters and other objects. Is it near the 1972 site? The American flag maybe? Anything in particular we should be preparing for.\\
+\textbf{A:} So what is the main purpose of the robot? What is it looking for?\\
+\item \textbf{Q:} The crash site.\\
+\textbf{A:} There is an area around the crash site that is radioactive. So your robot needs to be able to identify that area. So one feature is that. There are tracks, so you need to be able to identify tracks as well. Craters is sorta a no-go zone that will be drawn on the map. That will be a coloured area, so you’ll need to identify that area. So there’s tracks, the actual crash site, and there’s the craters. And there are other features as well, and you need to be able to identify those features as well. For example there will be obstacles (physical objects) on the map. So I’ve given you 4 so far, but there are more.\\
+\item \textbf{Q:} The DTD for the map data. When do we get that, or a sample or something?\\
+\textbf{A:} Hopefully by next week you will know the exact time when the D2D will be provided. My guess is that it will be provided by the end of next month, but my hope is you’ll be provided the exact time frame in the next meeting. [Note: End of next month would basically be when we come back from the mid semester break]\\
+\item \textbf{Q:} Do you have any particular preferences on how the map is displayed?\\
+\textbf{A:} No. It needs to be a user friendly map, but there’s no requirements on how it’s presented.\\
+\item \textbf{Q:} In manual control mode, what should happen if the user drives into a No-Go Zone. Should it stop?\\
+\textbf{A:} Yes.\\
+
+\item \textbf{Q:} Do we know what the particular colours on the A1 paper will be?\\
+\textbf{A:} So the colours are currently not known. We will let you know what the colours will be, but they’re not yet known.
+\item \textbf{Q:} The obstacles themselves, will they be physical objects?\\
+\textbf{A:} Yes.\\
+\item \textbf{Q:} Is there a max/min size of the objects?\\
+\textbf{A:} There’s no exact size measures of the obstacles, but we’ll make sure they’re of a size that can be detected by the robot.\\
+\item \textbf{Q:} Do you have a preference on how fast the map is processed or updated?\\
+\textbf{A:} The information I have is that you have at most 20 minutes for the demonstration. You will need to confirm that time. Basically, you’ll need to come up with a measure of the speed, to make sure the survey is done in that time.\\
+\item \textbf{Q:} Is there a single final demonstration? Like, what happens if we had a major software or hardware problem on the time of the demonstration?\\
+\textbf{A:} It’s a final demonstration.\\
+\item \textbf{Q:} Any particular requests UI components?\\
+\textbf{A:} The UI components are basically a presentation of the features. So for instance one feature is being able to set a No-Go Zone, so that would need to be a feature to be able set the No-Go Zone dimensions. And then of course theres auto control and manual control. Then of course when your in manual control, you’ll need to be able to move the robot, forward backward left right. And any of the other features that are required, like you need to be able to give a point to move to.\\
+\item \textbf{Q:} Given the real robot would have an approximate 2.5 second communication delay, should we account for that in our coding? Do we simulate the communication delay to the rover?\\
+\textbf{A:} No, you don’t need to.\\
+\item \textbf{Q:} What sort of people will be operating the interface? What sort of background do we need to tailor the UI for?
+\textbf{A:} These are the sort of users who know about robots, and who know about how robots work and stuff. So they have the information about sensors and stuff.\\
+\item \textbf{Q:} At the demonstration, do we need to be developing for a particular system, like a uni system, or can we bring our own?\\
+\textbf{A:} Are you talking about the map?\\
+\textbf{Q:} Yeah.\\
+\textbf{A:} The A1 map would most likely be provided to you. But as a backup you can bring your own. So we will provide you a A1 map for you to scan, but if that doesn’t work, you can bring your own.\\
+\item \textbf{Q:} Oh, no the A1 map, sorry, the actual code, that’s displaying the map, will it be running on a uni system at the demo, or do we bring our own laptop?\\
+\textbf{A:} You can bring your own laptops, yeah.\\
+\item \textbf{Q:} Is the expectation that we’ll be running the demo, or would someone else be expect to run it?\\
+\textbf{A:} You will be running the demo, showing us the features, but we can ask you to show us specific things, like go into manual control, go into auto control, etc. There are features like the XML to be loaded, that we’ll provide that we can ask you to load up and stuff.\\
+\item \textbf{Q:} When the vehicle has completed its survey, what would you like it to do? Manually or automatically drive back to the landing site?\\
+\textbf{A:} So when it’s completed, there’s 2 options – starting and end mode. So you can move your robot manually to the starting point, and you can move your robot manually to an ending point.\\
+\item \textbf{Q:} The spec seemed to expect the robot would have 4 wheels. Do you expect it to 4 wheels, or would a 3 wheel design be acceptable if it was suitable?\\
+\textbf{A:} Depends on your robot design. In the context of the no-go zone unrecoverable state, you’ll need to come up with an estimate or something of how much it can go into a no go zone before it’s unrecoverable based on your design.\\
+\item \textbf{Q:} Do you want in auto mode the user to be able to specify a particular path or just a destination?\\
+\textbf{A:} It doesn’t matter, but ideally it would be the shortest path. You don’t need to be able to specify a specific path.\\
+\item \textbf{Q:} In week 6, we’re meant to have a GUI and movement demo. Does the GUI have to be functional, or can it be a visual design?\\
+\textbf{A:} It doesn’t have to be functional.\\
+\item \textbf{Q:} Do you have any questions/info for us?\\
+\textbf{A:} I have a suggestion as an instructor – focus on the basic functionality, don’t look for how you can improve it. If you can demonstrate the basic stuff, that’s the most important thing.\\
+\end{list}
+
+\end{document}

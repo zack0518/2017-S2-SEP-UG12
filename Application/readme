@@ -1,0 +1,10 @@
+How to build and run
+---
+1. In Application folder, should be a 'build.xml'
+2. In terminal: `ant` (build java files)
+3. In terminal: `ant Application` (run)
+
+How to export an Ant build file from Eclipse
+---
+1. In eclipse: File -> Export, search for 'ant'
+2. In Application folder, should be a 'build.xml'

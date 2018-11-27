@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[document]{ragged2e}
+\usepackage{changepage}
+\begin{document}
+\begin{adjustwidth}{2.5em}{0pt}
+\begin{center}
+\Large{UG 12 Meeting \#x Minutes}\\
+\end{center}
+\end{adjustwidth}
+
+
+Eighth Meeting (Friday, Week 4, 2pm-4pm, 18th August 2017)
+\section{Attendance:}
+\subsection*{Present}
+\begin{itemize}
+\item Adam Davidson, Cyrus Villacampa, James Kortman, Jeremy Hughes, Ziang Chen, Ravi Lam, Ziang Chen, Linlin Song
+\end{itemize}
+\subsection*{Absent}
+\begin{itemize}
+\item  
+\end {itemize}
+
+\section{Details:}
+\begin{enumerate}
+\item \textbf{SRS}. Cyrus kindly wrote out a blank Latex template for us. The SRS is divided into sections as follows:
+\renewcommand{\labelenumii}{\arabic{enumii}.}
+\begin{enumerate}
+\item Introduction
+\item Overall Description
+\item System Features
+\item External Interface Requirements
+\item Other Non-Functional Requirements
+\end{enumerate}
+
+Linlin: 1\\
+Ziang: 1 and 4(.1)\\
+Cyrus: 2\\
+Ravi: 2\\
+Adam: 3\\
+James: 3, 4(.2+)\\
+Jeremy: 5\\
+If any section in particular is too big, reach out to other team mates. We will decide later about whether or not we need Use Cases. It is ''due'' for us at 11:59:59pm on Saturday 19th August (the next day).
+
+\item \textbf{Finalise architecture}. We discussed the architecture as per James' diagrams. FYI Draw.io is good/easy for diagrams. It also has UML support. Note: The ''UI'' section is all the code about the UI, not just the actual UI itself. Read-only access to map data and robrobotToHandlerQueue aren’t implemented by week 6. Change from diagram: We won
+t be directly interacting with the queue, it'll be wrapped in a function thing. If we need to move code to the robot, it’s easy. Everything runs on PC at the moment. Q: Stop all motion if connection is lost? Need to look into how connection is made to decide that. We're all happy and James' will put together a nicer API spec and a UML diagram.
+
+\item \textbf{JavaDoc} - James explained how it works and we've decided to use it.
+
+\item \textbf{GitHub} Folder structure on GitHub is a bit outdated. It shall now be: \\
+src/\\
+\hspace{.75cm}Handler/\\\hspace{.75cm}Robot/\\\hspace{.75cm}UI/\\\hspace{.75cm}Communication/\\\hspace{.75cm}Application.java\\
+
+Use branching. Only pull when you have good code.
+
+\item \textbf{Testing}. For now, write down tests for everything. When pulling, every single function needs to have a test or else it will not be approved (some robot/UI code excluded). Comment your test cases within the code. It's better to have lots of small functions and classes.
+
+\item \textbf{Java Coding Style}
+4 spaces, no tabs. Use camelCase() for function and variable names. Use ClassName\{\}; for classes. Openeing braces on the same line e.g.\\ if (...)\{ \\
+\hspace{.5cm}...\\ \} else \{ \\ \hspace{.5cm}...\\ \}\\
+
+\item Jeremy will take the robot home and report back about turning efficiency.\\
+Meeting closed at 3:35pm.
+\end{enumerate}
+
+\section{Action}
+\begin{enumerate}
+\item \textbf{Everyone} - Do the SRS
+\item \textbf{Jeremy} will take the robot home and report back about turning efficiency.
+\item \textbf{James} to do a nicer API spec and UML diagram.
+\item \textbf{Everyone} Use JavaDoc
+
+\end{enumerate}
+
+
+\end{document}

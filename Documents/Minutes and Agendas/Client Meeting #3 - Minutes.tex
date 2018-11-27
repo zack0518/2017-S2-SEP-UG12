@@ -1,0 +1,68 @@
+\documentclass{article}
+\usepackage[margin=1.25in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[document]{ragged2e}
+\usepackage{changepage}
+\begin{document}
+\begin{adjustwidth}{2.5em}{0pt}
+\begin{center}
+\Large{UG 12 Client Meeting \#3  Minutes}\\
+\end{center}
+\end{adjustwidth}
+
+Third Meeting (22 August 2017)
+\section{Attendance:}
+\textbf{Chair} - Ravi\\
+\textbf{Minute Taker} - Adam\\
+\subsection*{Present}
+\begin{itemize}
+\item Adam Davidson, Cyrus Villacampa, James Kortman, Jeremy Hughes, Ravi Lam, Ziang Chen, Linlin Song
+\end{itemize}
+\subsection*{Absent}
+\begin{itemize}
+\item  
+\end {itemize}
+\textbf{Meeting started at 13:14}
+
+\section{Minutes}
+\begin{enumerate}
+\subsection{SRS Presentation}
+\item Each person discussed their respective sections of the SRS:\\
+1. Introduction: James\\
+2. Overall Description: 2.1 Ravi, 2.2,3 Cyrus, 2.4-7 Ravi\\
+3. System Features: Adam\\
+4. External Interface Requirements: 
+4.1 Ziang, 4.2,3,4 James\\
+5. Other Non-Functional Requirements: Jeremy\\
+
+\subsection{Feedback:}
+\item We need revision history, especially if we're putting a version number on the front.
+\item User classes. Attributes of operators e.g. technical savvy.
+\item Include a Project Scope: What is included, what isn’t included. Also mention that you're limited to the features you identified. Any other features outside of the scope will not be designed for.
+\item Where are the requirements?
+\item Mention the operating environment in the GUI would be running. [Ravi: It’s mentioned]. It's open to all operating systems. The environment for the hardware needs to be considered (LeJOS). The robot’s firmware is part of the project. The GUI communicates to it, so it’s part of the environment.
+\item Requirements – what are we missing? Look at SRS Example. User requirements vs system features. I can consider it as a heading error. Do you want me to do that? Yes (change System Features to User Requirements). Then you'd be missing system features, that’s fine, add it in the final version. Add priority and source to User Requirements.
+\item Possible sourcse: Client meetings, document provided by the client.
+\item Quality attriubtes can include: flexible code, reliability. Have a look at other quality attributes. Put it under 5.3
+Reusability.
+
+\subsection{Client Meeting Section}
+
+\item We didn't provide a meeting agenda for the CM3 handin. We didn’t have any questions, so no plan, so no agenda. This has changed though, we have a few questions:
+
+\item Question \#1: Map. We need to import a pre-existing map. Do we need export? Save a final XML version? Yes, in XML. Any location for saving the map is fine.
+
+\item Question \#2: Manual control: Don’t go in NGZ. Should the robot refuse to drive into obstacles? Yes.
+
+
+Submit revised SRS at end of semester. No presentation needed.\\
+\vspace{.5cm}
+\textbf{Meeting closed at 1:40.}\\
+\end{enumerate}
+
+\section{Action Items}
+\begin{enumerate}
+\item James will upload an agenda.
+\end{enumerate}
+
+\end{document}

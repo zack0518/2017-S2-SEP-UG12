@@ -1,0 +1,138 @@
+\documentclass[12pt,a4paper]{article}
+% Set paper dimension
+\usepackage[
+  top=2cm,
+  bottom=2cm,
+  left=2cm,
+  right=2cm,
+  headheight=17pt, % as per the warning by fancyhdr
+  includehead,includefoot,
+  heightrounded, % to avoid spurious underfull messages
+]{geometry}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{epstopdf}
+\usepackage{glossaries} 
+\usepackage{float}
+
+% For the revision table
+\usepackage[table]{xcolor}
+\setlength{\arrayrulewidth}{0.5mm}
+\setlength{\tabcolsep}{12pt}
+\renewcommand{\arraystretch}{1.5}
+
+\usepackage{hyperref}
+ % Margins
+\topmargin=-0.1in
+
+% Headings
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\textbf{Page} \thepage}
+\lhead{Changes Document for Lunar Rover Mapping Robot}
+
+\pagenumbering{roman}
+
+\begin{document}
+	\begin{titlepage}
+		\centerline{\rule{16cm}{4pt}}
+		\vspace*{1cm}
+		\begin{center}
+			{\fontfamily{cmr}\selectfont
+				{\fontsize{33}{40}\selectfont \textbf{Changes Document}}\\
+				\vspace*{1cm}
+				{\fontsize{20}{40}\selectfont for}\\
+                \vspace*{1cm}
+				{\fontsize{20}{40}\selectfont \textbf{Software Requirements Specification}}\\
+                \vspace*{0.75cm}
+				{\fontsize{20}{40}\selectfont \textbf{Software Design Document}}\\
+                \vspace*{0.75cm}
+				{\fontsize{20}{100}\selectfont \textbf{Software Project Management Plan}}\\
+                \vspace*{1cm}
+				{\fontsize{20}{40}\selectfont for}\\
+                \vspace*{1cm}
+				{\fontsize{33}{40}\selectfont \textbf{Lunar Rover Mapping Robot}}\\
+				\vspace*{1cm}
+				{\fontsize{18}{40}\selectfont Version 1.0}\\
+				\vspace*{1cm}
+				{\fontsize{25}{40}\selectfont \textbf{Group: UG12}}\\
+				\vspace*{1cm}
+                \begin{figure}[H]
+                \centering
+                \includegraphics[width=0.5\textwidth]{UofA.jpg}
+              \end{figure}
+              \vspace*{\fill}
+			}
+		\end{center}
+		\centerline{\rule{6.5in}{4pt}}
+	\end{titlepage}
+	
+	\newpage
+	
+	\tableofcontents
+   	\vspace{80px}
+	\noindent{\fontsize{16}{40}\textbf{Revision History}}
+	\begin{center}
+	\begin{tabular}{ |p{2cm}|p{3cm}|p{9cm}|  }
+	\hline
+	\rowcolor{lightgray}
+	Version & Date &Reason for changes \\
+    \hline
+	1.0 & 30/10/2017 &Final version \\
+	\hline
+	\end{tabular}
+	\end{center}
+    
+    \vspace{50px}
+    \pagenumbering{arabic}
+	\vspace{50px}
+    
+	\section{Introduction}
+	\subsection{Purpose}
+This document is a changes document to track the changes between revisions of different documents.
+
+\newpage
+\section{SRS}
+User Requirements (Section 3) was changed to System Features (Section 4). This better suits the heading and allows us to write a better System Features section. The control feature was split into autonomous control and manual control. Functional requirements were then added to each requirement. \\
+System Features was added (Section 4).\\
+User Requirements (Section 3) was written.\\
+\textit{Priority} and \textit{Source} were added to \textit{User Requirements}.
+Small, general changes.
+
+\section{SPMP}
+Risk Management Plan (Section 5) was updated to clarify classifications of risk type, likelihood, and severity, and make the risk management process clearer.\\
+Documentation Schedule (Table 4) was updated with latest due dates and assignments for all documents.\\
+Branching style was added (feature by feature).\\
+WBS added.\\
+The structure of the document was changed to be more reader friendly.\\
+Referenced GitHub repository figure.\\
+
+	
+	\section{SDD}
+    UML diagram was updated for the latest code structure and naming conventions, including XML importing/exporting.\\
+    Purpose rewritten.\\
+    General changes.\\
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+\end{document}
